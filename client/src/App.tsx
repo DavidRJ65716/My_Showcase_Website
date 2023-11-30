@@ -1,5 +1,5 @@
 import { PageHeader }  from "./layouts/PageHeader"
-import { CatagoryPills } from './components/CatagoryPills'
+import { CategoryPills } from './components/CategoryPills'
 import { categories } from "./data/pillData"
 import { useState } from "react"
 
@@ -14,10 +14,11 @@ export default function App() {
                 <div>sidebar</div>
                 <div className="overflow-x-hidden px-8 pb-4">
                     <div className='sticky top-0 bg-white z-10 pb-4'>
-                        <CatagoryPills  
-                        categories={ categories }
-                        selectedCategory={selectedCategory} 
-                        onSelect={setSelectedCategory}/>
+                        <CategoryPills  
+                            categories={ categories }
+                            selectedCategory={selectedCategory} 
+                            onSelect={setSelectedCategory}
+                        />
                     </div>
                 </div>
             </div>
