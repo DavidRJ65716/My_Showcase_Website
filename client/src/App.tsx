@@ -4,6 +4,8 @@ import { categories } from "./data/pillData"
 import { useState } from "react"
 import { VideoGridItem } from "./components/VideoGridItem"
 import { videos } from "./data/VideoData"
+import { SideBar } from "./layouts/SideBar"
+
 
 export default function App() {
 
@@ -13,7 +15,7 @@ export default function App() {
         <div className="max-h-screen felx flex-col">
             <PageHeader />
             <div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto">
-                <div>sidebar</div>
+                <SideBar />
                 <div className="overflow-x-hidden px-8 pb-4">
                     <div className='sticky top-0 bg-white z-10 pb-4'>
                         <CategoryPills  
