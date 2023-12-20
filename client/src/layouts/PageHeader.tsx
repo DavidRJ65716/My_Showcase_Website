@@ -20,15 +20,18 @@ export function PageHeader(){
                 </a>
             </div>
             <form className={`gap-4 flex-grow justify-center ${showSearch ? 'flex' : 'md:flex hidden'}`}>
-                <Button
+                {showSearch && (
+
+                    <Button
                     onClick={() => setShowSearch(false)} 
                     type='button' 
                     size={'icon'} 
                     variant={'ghost'} 
                     className='flex-shrink-0 md:hidden'
-                >
-                    <ArrowLeft />
-                </Button>
+                    >
+                        <ArrowLeft />
+                    </Button>
+                )}
                 <div className='flex flex-grow max-w-[600px] '>
                     {/*<span>
                         <Search/>
@@ -90,5 +93,4 @@ export function PageHeader(){
             </div>
         </div>
     )
-
 }

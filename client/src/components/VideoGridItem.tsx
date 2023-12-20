@@ -17,11 +17,7 @@ type VideoGridItemProps ={
     videoUrl: string
 }
 
-const VIEW_FORMATER = new Intl.NumberFormat(
-    undefined, {
-        notation:"compact"
-    }
-)
+const VIEW_FORMATER = new Intl.NumberFormat(undefined, { notation:"compact" })
 
 export function VideoGridItem({
     id,
@@ -58,7 +54,8 @@ export function VideoGridItem({
             <a href={`/watch?v=${id}`} className="relative aspect-video">
                 <img 
                     src={thumbnailUrl} 
-                    className={`block w-full h-full object-cover transition-[border-radius] duration-200 ${isVideoPlaying ? "rounded-none" : "rounded-xl"}`}
+                    className={`block w-full h-full object-cover transition-[border-radius] duration-200 
+                        ${isVideoPlaying ? "rounded-none" : "rounded-xl"}`}
                 />
                 <div 
                     className="
@@ -86,7 +83,7 @@ export function VideoGridItem({
                     `}
                     ref={videoRef} 
                     muted
-                    playsInline 
+                    playsInline
                     src={`${videoUrl}`}
                 />
             </a>
