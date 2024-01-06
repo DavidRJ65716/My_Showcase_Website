@@ -15,28 +15,34 @@ import { twMerge } from 'tailwind-merge'
 import { Children } from "react";
 import { playlist } from "../data/PlayListData";
 import { subscriptions } from "../data/SubscriptionData";
+import { useSidebarContext } from "../contexts/SidebarContext";
 
 
 
 
 export function SideBar(){
     //const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
-    const [isSmallOpen] = useState(true)
-    const [isLargeOpen] = useState(true)
+    //const [isSmallOpen] = useState(true)
+    //const [isLargeOpen] = useState(false)
     
+    const { isLargeOpen, isSmallOpen} =useSidebarContext()
+
     return (
         <>
         <aside className= {`
             sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col ml-1
-            ${isLargeOpen ? "hidden" : "hidden lg:flex" }`
+            ${isLargeOpen ? "xl:hidden max-[0px]:min-[320px]:hidden" : "min-[320px]:hidden lg:flex" }`
         }>
             <SmallSidebarItem Icon={Home} title="Home" url="/" index={0}/>
             <SmallSidebarItem Icon={Repeat} title="Shorts" url="/shorts" index={1}/>
             <SmallSidebarItem Icon={Clapperboard} title="Subscription" url="/Subscription" index={2}/>
             <SmallSidebarItem Icon={Library} title="You" url="/library" index={3}/>
         </aside>
-        {isSmallOpen && (
-            <aside className="w-56 sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col gap-2 px-2">
+        
+            <aside className= {`
+                    w-56 sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2
+                    ${isLargeOpen? "hidden xl:flex": "hidden"}
+                `}>
                 <LargeSidebarSection visibleItemCount={4}>
                     <LargeSidebarItem isActive IconOrImage={Home} title="Home" url="/" index={0}/>
                     <LargeSidebarItem IconOrImage={Repeat} title="Shorts" url="/shorts" index={1}/>
@@ -83,7 +89,7 @@ export function SideBar(){
                     <LargeSidebarItem IconOrImage={Library} title=">" url="/library" index={3}/>
                 </LargeSidebarSection>
             </aside>
-        )}    
+           
         
         </>
     )

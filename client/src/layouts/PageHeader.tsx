@@ -2,9 +2,11 @@ import { Menu, Upload, Bell, User, Mic, Search, ArrowLeft } from 'lucide-react'
 import logo from '../assets/Logo.png'
 import { Button } from '../components/Button'
 import { useState } from 'react'
+import { useSidebarContext } from '../contexts/SidebarContext'
 
 export function PageHeader(){
     const [showSearch, setShowSearch] = useState(false)
+    const { toggle } = useSidebarContext()
     return( 
         <div className='flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4'>
             <div className={
@@ -12,7 +14,7 @@ export function PageHeader(){
                 flex-shrink-0 
                 ${showSearch ? 'md:flex hidden' : 'flex'}`
             }>
-                <Button variant={'ghost'} size={'icon'} >
+                <Button onClick={toggle} variant={'ghost'} size={'icon'} >
                     <Menu />
                 </Button>
                 <a href="/">
