@@ -1,5 +1,5 @@
 import { PageHeader } from "./PageHeader"
-import { SideBar } from "./SideBar"
+import { SideBar } from "./sidebar/SideBar"
 
 export default function Layouts() { 
 

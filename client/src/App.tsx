@@ -4,7 +4,7 @@ import { categories } from "./data/pillData"
 import { useState } from "react"
 import { VideoGridItem } from "./components/VideoGridItem"
 import { videos } from "./data/VideoData"
-import { SideBar } from "./layouts/SideBar"
+import { SideBar } from "./layouts/sidebar/SideBar"
 import { SidebarProvider } from "./contexts/SidebarContext"
 
 
