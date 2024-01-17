@@ -5,7 +5,7 @@ import { videos } from "../data/VideoData"
 import { VideoGridItem } from "../components/VideoGridItem"
 
 
-export function Home(){
+export default function Home(){
 
     const [selectedCategory, setSelectedCategory] = useState(categories[0])
     

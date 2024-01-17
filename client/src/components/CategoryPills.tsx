@@ -39,7 +39,7 @@ export function CategoryPills({
         return () => {
           observer.disconnect()
         }
-      }, [categories, translate])
+      }, [categories, translate + 200])
 
     return (
         
