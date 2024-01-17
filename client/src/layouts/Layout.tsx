@@ -11,9 +11,7 @@ export function LayoutMain() {
                 <PageHeader />
                 <div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto">
                     <SideBar />
-                    <div className="container">
-                        <Outlet />
-                    </div>
+                    <Outlet />
                 </div>
             </div>
         </SidebarProvider>
