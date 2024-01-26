@@ -3,6 +3,7 @@ import logo from '../assets/Logo.png'
 import { Button } from '../components/Button'
 import { useState } from 'react'
 import { useSidebarContext } from '../contexts/SidebarContext'
+import { Link } from 'react-router-dom'
 
 export function PageHeader(){
     const [showSearch, setShowSearch] = useState(false)
@@ -90,7 +91,7 @@ type PageHeaderFirstSectionProps = {
     hidden?: boolean
 }
 
-export function PageHeaderFirstSection( { hidden = false }: PageHeaderFirstSectionProps){
+export function PageHeaderFirstSection( { hidden = false }: PageHeaderFirstSectionProps) {
 
     const { toggle } = useSidebarContext()
 
@@ -103,9 +104,9 @@ export function PageHeaderFirstSection( { hidden = false }: PageHeaderFirstSecti
             <Button onClick={toggle} variant={'ghost'} size={'icon'} >
                 <Menu />
             </Button>
-            <a href="/">
+            <Link to="/">
                 <img src={ logo } className='h-6'/>
-            </a>
+            </Link>
         </div>
     )
 }

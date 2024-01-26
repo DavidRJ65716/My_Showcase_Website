@@ -2,6 +2,7 @@ import { ElementType, ReactNode, useState, Children } from "react";
 import { ChevronUp, ChevronDown} from "lucide-react";
 import { Button, buttonStyles } from "../../../components/Button";
 import { twMerge } from 'tailwind-merge'
+import { Link } from "react-router-dom";
 
 
 type LargeSidebarItemProps = {
@@ -56,8 +57,8 @@ export function LargeSidebarSection({
 
 export function LargeSidebarItem({ IconOrImage,title, url, isActive = false }:LargeSidebarItemProps) {
     return(
-        <a 
-            href={url}
+        <Link 
+            to={url}
             className={twMerge(
                 buttonStyles({variant: "ghost"}),
                 `w-full flex items-center rounded-lg gap-4 p-3 
@@ -71,6 +72,6 @@ export function LargeSidebarItem({ IconOrImage,title, url, isActive = false }:La
             <div className="whitespace-nowrap overflow-hidden text-ellipsis text-sm">
                 {title}
             </div>
-        </a>
+        </Link>
     )
 }

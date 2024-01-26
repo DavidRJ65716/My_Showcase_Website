@@ -4,14 +4,14 @@ type SidebarProviderProps = {
     children: ReactNode
 }
 
-type SidebarCotextType = {
+type SidebarContextType = {
     isLargeOpen: boolean
     isSmallOpen: boolean
     toggle: () => void
     close: () =>void
 }
 
-const SidebarContext = createContext<SidebarCotextType | null>(null)
+const SidebarContext = createContext<SidebarContextType | null>(null)
 
 export function useSidebarContext() {
     const value = useContext(SidebarContext)
@@ -44,6 +44,7 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
     function toggle() {
         if (isScreenSmall()) {
             setIsSmallOpen(s => !s)
+           
         } else {
             setIsLargeOpen(l => !l)
         }

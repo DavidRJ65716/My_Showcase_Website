@@ -1,4 +1,5 @@
 import Home from "./page/Home";
+import Watch from "./page/Watch";
 import { LayoutMain,LayoutVideo } from "./layouts/Layout"
 
 const AppRouters = [
@@ -7,15 +8,27 @@ const AppRouters = [
         routes: [
             {
                 name: 'Home',
-                title: 'Home Page',
+                title: 'Home - Main Page',
                 componet: Home,
                 path: '/'
             },
             {
-                name: 'Home',
-                title: 'Home Page',
+                name: 'shorts',
+                title: 'Shorts',
                 componet: Home,
                 path: '/shorts'
+            },
+            {
+                name: 'shorts',
+                title: 'Shorts',
+                componet: Home,
+                path: '/library'
+            },
+            {
+                name: 'shorts',
+                title: 'Shorts',
+                componet: Home,
+                path: '/subscription'
             }
         ]
     }, 
@@ -24,8 +37,8 @@ const AppRouters = [
         routes: [
             {
                 name: 'Watch',
-                title: 'Home Page',
-                componet: Home,
+                title: 'Home - Main Page',
+                componet: Watch,
                 path: '/watch'
             }
         ]

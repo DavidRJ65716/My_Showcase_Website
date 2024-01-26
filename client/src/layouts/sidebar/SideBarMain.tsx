@@ -14,12 +14,13 @@ import { LargeSidebarSection, LargeSidebarItem } from "./components/LargeSideBar
 import { SmallSidebarItem } from "./components/SmallSideBarComp";
 import { PageHeaderFirstSection } from "../PageHeader";
 
-export function SideBar(){
+export function SideBarMain(){
     //const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
     //const [isSmallOpen] = useState(true)
     //const [isLargeOpen] = useState(false)
     
-    const { isLargeOpen, isSmallOpen, close} =useSidebarContext()
+    const { isLargeOpen, isSmallOpen, close} = useSidebarContext()
+
     return (
         
         <>
@@ -51,7 +52,7 @@ export function SideBar(){
                 <LargeSidebarSection visibleItemCount={4}>
                     <LargeSidebarItem isActive IconOrImage={Home} title="Home" url="/" index={0}/>
                     <LargeSidebarItem IconOrImage={Repeat} title="Shorts" url="/shorts" index={1}/>
-                    <LargeSidebarItem IconOrImage={Clapperboard} title="Subscription" url="/Subscription" index={2}/>
+                    <LargeSidebarItem IconOrImage={Clapperboard} title="Subscription" url="/subscription" index={2}/>
                 </LargeSidebarSection>
                 <hr className=""/>
                 <LargeSidebarSection visibleItemCount={6} >

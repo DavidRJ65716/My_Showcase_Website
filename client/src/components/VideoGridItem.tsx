@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { FormatDuration } from "../utils/FormatDuration"
 import { FormatTimeAgo } from "../utils/FormatTimeAgo"
+import { Link } from "react-router-dom"
 
 type VideoGridItemProps ={
     id: string,
@@ -51,7 +52,7 @@ export function VideoGridItem({
             onMouseEnter={() => setIsVideoPlaying(true)} 
             onMouseLeave={() => setIsVideoPlaying(false)}
         >
-            <a href={`/watch?v=${id}`} className="relative aspect-video">
+            <Link to={`/watch?v=${id}`} className="relative aspect-video">
                 <img 
                     src={thumbnailUrl} 
                     className={`block w-full h-full object-cover transition-[border-radius] duration-200 
@@ -86,18 +87,18 @@ export function VideoGridItem({
                     playsInline
                     src={`${videoUrl}`}
                 />
-            </a>
+            </Link>
             <div className="flex gap-2">
-                <a href={`/@${channel.id}`} className="flex-shrink-0">
+                <Link to={`/@${channel.id}`} className="flex-shrink-0">
                     <img className="w-12 h-12 rounded-full" src={`${channel.profileUrl}`}/>
-                </a>
+                </Link>
                 <div className="flex flex-col">
-                    <a href={`/watch?v=${id}`} className="font-bold">
+                    <Link to={`/watch?v=${id}`} className="font-bold">
                         {title}
-                    </a>
-                    <a href={`/@${channel.id}`} className="text-secondary-text text-sm">
+                    </Link>
+                    <Link to={`/@${channel.id}`} className="text-secondary-text text-sm">
                         {channel.name}
-                    </a>
+                    </Link>
                     <div className="text-secondary-text text-sm flex flex-row">
                         <span>
                             {VIEW_FORMATER.format(views)} views 

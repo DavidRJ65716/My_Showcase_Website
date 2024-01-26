@@ -1,36 +1,36 @@
 import { Outlet } from "react-router-dom"
-import { SidebarProvider } from "../contexts/SidebarContext"
+//import { SidebarProvider } from "../contexts/SidebarContext"
 import { PageHeader } from "./PageHeader"
-import { SideBar } from "./sidebar/SideBar"
+import { SideBarMain } from "./sidebar/SideBarMain"
 
 export function LayoutMain() { 
 
     return (
-        <SidebarProvider>
-            <div className="max-h-screen felx flex-col">
-                <PageHeader />
-                <div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto">
-                    <SideBar />
-                    <Outlet />
-                </div>
+
+        <div className="max-h-screen flex flex-col">
+            <PageHeader />
+            <div className="grid grid-cols-[auto,1fr] flex-grow overflow-auto">
+                <SideBarMain />
+                <Outlet />
             </div>
-        </SidebarProvider>
+        </div>
+
     )
 }
 
 export function LayoutVideo() { 
 
     return (
-        <SidebarProvider>
-            <div className="max-h-screen felx flex-col">
-                <PageHeader />
-                <div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto">
-                    <SideBar />
-                    <div className="container">
-                        <Outlet />
-                    </div>
+
+        <div className="max-h-screen flex flex-col">
+            <PageHeader />
+            <div className="grid grid-cols-[auto,1fr] flex-grow overflow-auto">
+                <SideBarMain />
+                <div className="container">
+                    <Outlet />
                 </div>
             </div>
-        </SidebarProvider>
+        </div>
+
     )
 }
