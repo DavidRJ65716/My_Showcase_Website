@@ -7,6 +7,7 @@ type SidebarProviderProps = {
 type SidebarContextType = {
     isLargeOpen: boolean
     isSmallOpen: boolean
+    isWatchOpen:boolean
     toggle: () => void
     close: () =>void
 }
@@ -24,7 +25,8 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
 
     const [isLargeOpen, setIsLargeOpen] = useState(false)
     const [isSmallOpen, setIsSmallOpen] = useState(false)
-
+    const [isWatchOpen, setIsWatchOpen] = useState(false)
+    
     useEffect(() => {
         const handler = () => {
             if (!isScreenSmall()) setIsSmallOpen(false)
@@ -61,6 +63,7 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
     return <SidebarContext.Provider value={{
         isLargeOpen,
         isSmallOpen,
+        isWatchOpen,
         toggle,
         close
     }}>

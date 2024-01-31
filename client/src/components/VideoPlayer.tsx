@@ -1,29 +1,14 @@
-import { useParams,  } from "react-router-dom"
 
-
-type VideoPlayerProps ={
-    id: string,
-    title: string,
-    channel: {
-        name: string,
-        id: string,
-        profileUrl: string,
-    },
-    views: number,
-    postedAt: Date,
-    duration: number,
-    thumbnailUrl: string,
+type VideoPlayerPops = {
     videoUrl: string
 }
 
-export function VideoPlayer(){
-
-    const { v } = useParams();
+export function VideoPlayer({videoUrl}:VideoPlayerPops) {
     //api call from database to get video info
 
     return (
         <div className=" box-border w-11/12 max-w-screen-lg  ">
-            <video src="" className=" w-full"/>
+            <video src={videoUrl} className=" w-full"/>
         </div>
     )
 }

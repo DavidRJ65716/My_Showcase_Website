@@ -26,9 +26,9 @@ export function SideBarMain(){
         <>
             <aside className= {`
                 sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 xs:hidden
-                ${isLargeOpen ? "lg:hidden" : " lg:flex" }
+                ${isLargeOpen ? "xl:hidden" : " xl:flex" }
             `}>
-                <SmallSidebarItem Icon={Home} title="Home" url="/" index={0}/>
+                <SmallSidebarItem isActive Icon={Home} title="Home" url="/" index={0}/>
                 <SmallSidebarItem Icon={Repeat} title="Shorts" url="/shorts" index={1}/>
                 <SmallSidebarItem Icon={Clapperboard} title="Subscription" url="/Subscription" index={2}/>
                 <SmallSidebarItem Icon={Library} title="You" url="/library" index={3}/>
@@ -37,16 +37,16 @@ export function SideBarMain(){
             {isSmallOpen && (
                 <div
                     onClick={close}
-                    className="lg:hidden fixed inset-0 z-[999] bg-secondary-dark opacity-50"
+                    className="xl:hidden fixed inset-0 z-[999] bg-secondary-dark opacity-50"
                 />
             )}
             
             <aside className= {`
-                    w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2
-                    ${isLargeOpen? "lg:flex": "lg:hidden"}
+                    w-56 xl:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2
+                    ${isLargeOpen? "xl:flex": "xl:hidden"}
                     ${isSmallOpen? "flex z-[999] bg-white max-h-screen" : "hidden"}
                 `}>
-                <div className="lg:hidden pt-2 pb-4 px-2 sticky top-0 bg-white">
+                <div className="xl:hidden pt-2 pb-4 px-2 sticky top-0 bg-white">
                     <PageHeaderFirstSection />
                 </div>
                 <LargeSidebarSection visibleItemCount={4}>
@@ -98,4 +98,3 @@ export function SideBarMain(){
         </>
     )
 }
-

@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom"
 //import { SidebarProvider } from "../contexts/SidebarContext"
 import { PageHeader } from "./PageHeader"
 import { SideBarMain } from "./sidebar/SideBarMain"
+import { SideBarWatch } from "./sidebar/SideBarWatch"
 
 export function LayoutMain() { 
 
@@ -25,7 +26,7 @@ export function LayoutVideo() {
         <div className="max-h-screen flex flex-col">
             <PageHeader />
             <div className="grid grid-cols-[auto,1fr] flex-grow overflow-auto">
-                <SideBarMain />
+                <SideBarWatch />
                 <div className="container">
                     <Outlet />
                 </div>
