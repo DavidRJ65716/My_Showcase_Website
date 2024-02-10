@@ -83,8 +83,8 @@ export function VideoGridItem({
                         ${isVideoPlaying ? "opacity-100 delay-200" : "opacity-0"}
                     `}
                     ref={videoRef} 
-                    muted
-                    playsInline
+                    muted={true}
+                    playsInline={true}
                     src={`${videoUrl}`}
                 />
             </Link>

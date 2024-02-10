@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
 
 type SidebarProviderProps = {
     children: ReactNode
@@ -7,7 +8,7 @@ type SidebarProviderProps = {
 type SidebarContextType = {
     isLargeOpen: boolean
     isSmallOpen: boolean
-    isWatchOpen:boolean
+    isSecondOpen:boolean
     toggle: () => void
     close: () =>void
 }
@@ -25,19 +26,21 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
 
     const [isLargeOpen, setIsLargeOpen] = useState(false)
     const [isSmallOpen, setIsSmallOpen] = useState(false)
-    const [isWatchOpen, setIsWatchOpen] = useState(false)
+    const [isSecondOpen, setIsSecondOpen] = useState(false)
+    const location = useLocation()
     
     useEffect(() => {
         const handler = () => {
             if (!isScreenSmall()) setIsSmallOpen(false)
         }
-
+        
         window.addEventListener("resize", handler)
-
+        
+        setIsSecondOpen(false)
         return () =>{
             window.removeEventListener("resize", handler)
         }
-    }, [])
+    }, [location])
 
     function isScreenSmall(){
         return window.innerWidth < 1280
@@ -50,6 +53,7 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
         } else {
             setIsLargeOpen(l => !l)
         }
+        setIsSecondOpen(so =>!so)
     }
 
     function close() {
@@ -58,12 +62,13 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
         } else {
             setIsLargeOpen(false)
         }
+        setIsSecondOpen(false)
     }
 
     return <SidebarContext.Provider value={{
         isLargeOpen,
         isSmallOpen,
-        isWatchOpen,
+        isSecondOpen,
         toggle,
         close
     }}>

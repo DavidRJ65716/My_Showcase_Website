@@ -1,8 +1,8 @@
 import { VideoPlayer } from "../components/VideoPlayer"
-import { useSearchParams } from "react-router-dom";
+import { redirect, useSearchParams } from "react-router-dom";
 import { videos } from "../data/VideoData"
 
-type VideoGridItemProps ={
+type VideoPlayerProps ={
     id: string,
     title: string,
     channel: {
@@ -14,12 +14,12 @@ type VideoGridItemProps ={
     postedAt: Date,
     duration: number,
     thumbnailUrl: string,
-    videoUrl: string
+    videoUrl: string|null
 }
 
 function getData(v: string|null){
+    if(!v)redirect("/")
 
-    
 }
 
 export default function Watch() {
@@ -31,8 +31,9 @@ export default function Watch() {
     return(
         <>
             <div>
+
                 <div className="">
-                    <VideoPlayer videoUrl={""} />
+                    <VideoPlayer videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"} />
                 </div>
                 <div>
                     <p>video info</p>

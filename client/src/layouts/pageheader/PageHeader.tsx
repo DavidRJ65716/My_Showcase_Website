@@ -1,8 +1,7 @@
-import { Menu, Upload, Bell, User, Mic, Search, ArrowLeft } from 'lucide-react'
-import logo from '../assets/Logo.png'
-import { Button } from '../components/Button'
+import { Upload, Bell, User, Mic, Search, ArrowLeft } from 'lucide-react'
+import { Button } from '../../components/Button'
 import { useState } from 'react'
-import { useSidebarContext } from '../contexts/SidebarContext'
+import { PageHeaderFirstSection } from './components/PageHeaderComp'
 import { Link } from 'react-router-dom'
 
 export function PageHeader(){
@@ -24,11 +23,7 @@ export function PageHeader(){
                         <ArrowLeft />
                     </Button>
                 )}
-                <div className='flex flex-grow max-w-[600px] '>
-                    {/*<span>
-                        <Search/>
-                    </span>*/}
-                   
+                <div className='flex flex-grow max-w-[600px] '>    
                     <input 
                         type='search' 
                         placeholder='Search'
@@ -87,26 +82,3 @@ export function PageHeader(){
     )
 }
 
-type PageHeaderFirstSectionProps = {
-    hidden?: boolean
-}
-
-export function PageHeaderFirstSection( { hidden = false }: PageHeaderFirstSectionProps) {
-
-    const { toggle } = useSidebarContext()
-
-    return(
-        <div className={
-            `gap-4 items-center 
-            flex-shrink-0 
-            ${hidden ? 'md:flex hidden' : 'flex'}`
-        }>
-            <Button onClick={toggle} variant={'ghost'} size={'icon'} >
-                <Menu />
-            </Button>
-            <Link to="/">
-                <img src={ logo } className='h-6'/>
-            </Link>
-        </div>
-    )
-}

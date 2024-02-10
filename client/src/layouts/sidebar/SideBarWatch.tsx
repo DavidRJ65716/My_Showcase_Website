@@ -9,19 +9,17 @@ import {
 } from "lucide-react";
 import { playlist } from "../../data/PlayListData";
 import { subscriptions } from "../../data/SubscriptionData";
-import { useSidebarContext } from "../../contexts/SidebarContext";
 import { LargeSidebarSection, LargeSidebarItem } from "./components/LargeSideBarComp";
-import { PageHeaderFirstSection } from "../PageHeader";
-
-
+import { PageHeaderFirstSection } from "../pageheader/components/PageHeaderComp";
+import { useSidebarContext } from "../../contexts/SidebarContext"
 
 export function SideBarWatch(){
     
-    const { isSmallOpen, close} = useSidebarContext()
-
+    const { isSecondOpen, close}= useSidebarContext()
+    
     return(
         <>
-            {isSmallOpen && (
+            {isSecondOpen && (
                 <div
                     onClick={close}
                     className="fixed inset-0 z-[999] bg-secondary-dark opacity-50"
@@ -29,7 +27,7 @@ export function SideBarWatch(){
             )}
             <aside className= {`
                 w-56 absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2
-                ${isSmallOpen? "flex z-[999] bg-white max-h-screen" : "hidden"}
+                ${isSecondOpen? "flex z-[999] bg-white max-h-screen" : "hidden"}
             `}>
                 <div className="pt-2 pb-4 px-2 sticky top-0 bg-white">
                     <PageHeaderFirstSection />

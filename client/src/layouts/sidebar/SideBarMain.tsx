@@ -12,12 +12,9 @@ import { subscriptions } from "../../data/SubscriptionData";
 import { useSidebarContext } from "../../contexts/SidebarContext";
 import { LargeSidebarSection, LargeSidebarItem } from "./components/LargeSideBarComp";
 import { SmallSidebarItem } from "./components/SmallSideBarComp";
-import { PageHeaderFirstSection } from "../PageHeader";
+import { PageHeaderFirstSection } from "../pageheader/components/PageHeaderComp";
 
-export function SideBarMain(){
-    //const { isLargeOpen, isSmallOpen, close } = useSidebarContext()
-    //const [isSmallOpen] = useState(true)
-    //const [isLargeOpen] = useState(false)
+export function SideBarMain() {
     
     const { isLargeOpen, isSmallOpen, close} = useSidebarContext()
 
