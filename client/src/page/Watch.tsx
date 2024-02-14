@@ -26,14 +26,14 @@ export default function Watch() {
     
     const [searchParams] = useSearchParams();
     const  v  = searchParams.get('v');
+    const t = searchParams.get('t')
     getData(v)
     
     return(
-        <>
-            <div>
-
-                <div className="">
-                    <VideoPlayer videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"} />
+        <div className="flex gap-0 ms-auto me-auto">
+            <div className="">
+                <div className=" box-border flex justify-center ">
+                    <VideoPlayer videotime = {0} videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"} />
                 </div>
                 <div>
                     <p>video info</p>
@@ -42,9 +42,9 @@ export default function Watch() {
                     <p> chat </p>
                 </div>
             </div>
-            <div>
+            <div className="flex">
                 <p>Side video grid</p>
             </div>
-        </>
+        </div>
     )
 }

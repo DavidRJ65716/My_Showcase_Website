@@ -35,7 +35,7 @@ export function CategoryPills({
         })
     
         observer.observe(containerRef.current)
-    
+        console.log("pill translate: " + translate)
         return () => {
           observer.disconnect()
         }

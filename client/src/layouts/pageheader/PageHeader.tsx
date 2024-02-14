@@ -2,7 +2,6 @@ import { Upload, Bell, User, Mic, Search, ArrowLeft } from 'lucide-react'
 import { Button } from '../../components/Button'
 import { useState } from 'react'
 import { PageHeaderFirstSection } from './components/PageHeaderComp'
-import { Link } from 'react-router-dom'
 
 export function PageHeader(){
     const [showSearch, setShowSearch] = useState(false)

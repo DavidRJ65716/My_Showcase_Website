@@ -12,6 +12,7 @@ export const buttonStyles = cva(["transition-colors"], {
           "hover:bg-secondary-dark-hover",
           "text-secondary",
         ],
+        player:[],
       },
       size: {
         default: [" rounded", "p-2"],
@@ -24,6 +25,7 @@ export const buttonStyles = cva(["transition-colors"], {
           "justify-center",
           "p-2.5",
         ],
+        player:[],
       },
     },
     defaultVariants: {

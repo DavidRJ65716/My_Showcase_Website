@@ -85,6 +85,7 @@ export function VideoGridItem({
                     ref={videoRef} 
                     muted={true}
                     playsInline={true}
+                    autoPlay={false}
                     src={`${videoUrl}`}
                 />
             </Link>
@@ -93,9 +94,11 @@ export function VideoGridItem({
                     <img className="w-12 h-12 rounded-full" src={`${channel.profileUrl}`}/>
                 </Link>
                 <div className="flex flex-col">
-                    <Link to={`/watch?v=${id}`} className="font-bold">
-                        {title}
-                    </Link>
+                    <h3 className="leading-5">
+                        <Link to={`/watch?v=${id}`} className="font-bold">
+                            {title}
+                        </Link>
+                    </h3>
                     <Link to={`/@${channel.id}`} className="text-secondary-text text-sm">
                         {channel.name}
                     </Link>
