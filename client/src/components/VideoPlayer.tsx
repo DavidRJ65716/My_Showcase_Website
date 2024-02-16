@@ -42,7 +42,7 @@ export function VideoPlayer({videoUrl, videotime}:VideoPlayerPops) {
     return (
 
         <div 
-            className=' w-11/12 max-w-screen-2xl relative group'
+            className='  relative group'
         >{/*video container*/}
             <div 
                 className={`transition-opacity ${isContolShowing ? "opacity-100" : "group-hover:opacity-100 opacity-0"}`}
@@ -51,10 +51,10 @@ export function VideoPlayer({videoUrl, videotime}:VideoPlayerPops) {
 
                 </div>
                 <div className={`absolute bottom-0 inset-x-0 z-[100] flex`}>{/*video Controlls*/}
-                    <div className="flex items-center gap-4 px-5 py-2"> {/*controls left side*/}                    
+                    <div className="flex justify-center gap-4 px-5 py-2"> {/*controls left side*/}                    
                         <div className=''>{/*play button*/}
                             <Button onClick={videoPlayToggle} variant={"player"} size={"player"}>
-                                <Play className={`${isVideoPlaying && "hidden"}`}color="white"/>
+                                <Play className={`${isVideoPlaying && "hidden"}`} color="white"/>
                                 <Pause className={`${!isVideoPlaying && "hidden" }`} color="white"/>
                             </Button>
                         </div>

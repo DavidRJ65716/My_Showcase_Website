@@ -7,4 +7,4 @@ github.com/WebDevSimplified/youtube-react-ts-tailwind-home-page/
 * Added Routing to webpages
 * Added two layout for the main landing page
 * SidebarContext.tsx Works accross all layouts
-* 
+* Added a videoplayer with custom controls * active

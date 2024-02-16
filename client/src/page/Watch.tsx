@@ -28,21 +28,24 @@ export default function Watch() {
     const  v  = searchParams.get('v');
     const t = searchParams.get('t')
     getData(v)
-    
+    //w-11/12 max-w-screen-2xl
     return(
-        <div className="flex gap-0 ms-auto me-auto">
-            <div className="">
-                <div className=" box-border flex justify-center ">
+        <div className="flex flex-row gap-5 justify-center  align-middle">
+            <div className="flex px-6 pt-6 w-11/12"> {/*main container*/}
+                <div className=" box-border max-w-screen-xl">
                     <VideoPlayer videotime = {0} videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"} />
                 </div>
-                <div>
-                    <p>video info</p>
+                <div>{/*video info*/}
+                    
                 </div>
-                <div>
-                    <p> chat </p>
+                <div className='hidden xs:flex'>{/*colom video grid container*/}
+                   
+                </div>
+                <div>{/*Chat container*/}
+                    
                 </div>
             </div>
-            <div className="flex">
+            <div className="flex flex-col">{/*Secondary container*/}
                 <p>Side video grid</p>
             </div>
         </div>
