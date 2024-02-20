@@ -25,9 +25,11 @@ export function LayoutVideo() {
         
         <div className="max-h-screen flex flex-col">
             <PageHeader />
-            <div className="grid grid-cols-[auto,1fr] flex-grow overflow-auto">
+            <div className="grid grid-cols-[auto,auto] flex-grow overflow-auto">
                 <SideBarWatch />
-                <Outlet />
+                <div className="w-screen">
+                    <Outlet />
+                </div>
             </div>
         </div>
     )

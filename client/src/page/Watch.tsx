@@ -30,22 +30,26 @@ export default function Watch() {
     getData(v)
     //w-11/12 max-w-screen-2xl
     return(
-        <div className="flex flex-row gap-5 justify-center  align-middle">
-            <div className="flex px-6 pt-6 w-11/12"> {/*main container*/}
-                <div className=" box-border max-w-screen-xl">
-                    <VideoPlayer videotime = {0} videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"} />
+        <div className="flex justify-center mx-auto overflow-x-hidden">
+            <div className=" px-6 "> {/*main container*/}
+                <div className="box-border max-w-screen-lg">
+                    <VideoPlayer 
+                        videotime = {0} 
+                        videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
+                    />
                 </div>
                 <div>{/*video info*/}
                     
                 </div>
-                <div className='hidden xs:flex'>{/*colom video grid container*/}
+                <div className="hidden xs:flex">{/*colom video grid container*/}
                    
                 </div>
                 <div>{/*Chat container*/}
                     
                 </div>
             </div>
-            <div className="flex flex-col">{/*Secondary container*/}
+            <div className="pr-6 border-solid border-black  hidden lg:flex">{/*Secondary container*/}
+                <div className="sticky top-0 "></div>
                 <p>Side video grid</p>
             </div>
         </div>

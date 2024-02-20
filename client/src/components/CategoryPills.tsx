@@ -32,6 +32,10 @@ export function CategoryPills({
           setIsRightVisible(
             translate + container.clientWidth < container.scrollWidth
           )
+
+          if (!isRightVisibale) {
+            // match clientswidth with scrollwidth
+          }
         })
     
         observer.observe(containerRef.current)
