@@ -19,8 +19,7 @@ export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
     useEffect(()=> {
         
         window.addEventListener("focus",onFocus)
-        videoPlayToggle()
-
+        
         return () => {
             window.removeEventListener("focus",onFocus)
         }
@@ -53,10 +52,32 @@ export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
 
     const videoMuteToggle = () => {
         setIsMuted(m => !m)
+        if (volumeLevel === 0 && isMuted) {
+            setSliderLevel(20)
+            setVolumeLevel(20)
+            setVideoVolume(20)
+        } else if (!isMuted) {
+            setSliderLevel(0)
+        } else {
+            setSliderLevel(volumeLevel)
+        }
     }
 
+    //Handalse volume slide on inpute range
     const volumeHandler = (newVolume: React.ChangeEvent<HTMLInputElement>) => {
         setVolumeLevel(Number(newVolume.target.value))
+        if (volumeLevel === 0) {
+            setSliderLevel(0)
+            setIsMuted(true)
+        } else {
+            setIsMuted(false)
+            setSliderLevel(volumeLevel)
+            setVideoVolume(volumeLevel)
+        }
+    }
+    
+    //Changes volume when users clicks on slider randomly
+    const HandleSliderClick = () => {
         if (volumeLevel === 0) {
             setSliderLevel(0)
             setIsMuted(true)
@@ -110,12 +131,12 @@ export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
                                     type="range"
                                     min="0"
                                     max="100"
-                                    
+                                    step="1"
                                     value={sliderLevel}
                                     onChange={volumeHandler}
+                                    onClick={HandleSliderClick}
                                 />
                             </div>
-                            
                         </div>
                         <div className="flex items-center flex-row"> {/*time duration*/}
                             <p>time</p>
