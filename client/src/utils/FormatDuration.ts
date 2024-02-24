@@ -3,7 +3,9 @@ const LEADING_ZERO_FORMATTER = new Intl.NumberFormat
     minimumIntegerDigits: 2,
 })
 
-export function FormatDuration(duration: number){
+export function FormatDuration(duration: number|null){
+    if (duration == null) return
+
     const hours = Math.floor(duration / 60 / 60)
     const minutes = Math.floor((duration - hours * 60 * 60) / 60)
     const seconds = duration % 60

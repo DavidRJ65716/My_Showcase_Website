@@ -1,33 +1,50 @@
 import { Play, Pause, VolumeX, Volume1, Volume2 } from "lucide-react"
 import { Button } from "./Button"
 import { useEffect, useRef, useState } from "react"
+import { FormatDuration } from "../utils/FormatDuration"
 
 type VideoPlayerPops = {
     videoUrl: string
-    videoTime: number
+    videoTime: string|null
+    duration: number
 }
 
-export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
+export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
 
-    const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+    const [isVideoPlaying, setIsVideoPlaying] = useState(true)
     const [isContolShowing, setIsControlShowing] = useState(false)
-    const [isMuted, setIsMuted] = useState(false)
-    const [volumeLevel, setVolumeLevel] = useState(50)
-    const [sliderLevel, setSliderLevel] = useState(50)
+    const [isMuted, setIsMuted] = useState(true)
+    const [volumeLevel, setVolumeLevel] = useState(0)
+    const [sliderLevel, setSliderLevel] = useState(0)
     const videoRef = useRef<HTMLVideoElement>(null)
+    const [videoTimer, setVideoTimer] = useState("")
 
     useEffect(()=> {
         
-        window.addEventListener("focus",onFocus)
+        //window.addEventListener("focus",onFocus)
+        if (videoRef.current == null) return
+        setIsVideoPlaying(false)
+        if (isVideoPlaying){
+            videoRef.current.currentTime = 0
+            videoRef.current.play()
+        } else {
+            videoRef.current.pause()
+            setIsControlShowing(true)
+        }
         
         return () => {
-            window.removeEventListener("focus",onFocus)
+            //window.removeEventListener("focus",onFocus)
         }
 
     },[])
 
-    const onFocus = () =>{
-        console.log("tab is focus")
+    const videoCurrentTime = () => {
+        console.log("timer")
+        if (videoRef.current == null) return
+        let timer = FormatDuration(Math.trunc(videoRef.current.currentTime))
+        
+        if (timer == null) return
+        setVideoTimer(timer)
     }
 
     const videoPlayToggle = () => {
@@ -35,7 +52,7 @@ export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
         if (videoRef.current == null) return
 
         if (isVideoPlaying){
-            videoRef.current.currentTime = videoTime
+            //videoRef.current.currentTime = 0
             videoRef.current.play()
             setIsControlShowing(false)
         } else {
@@ -125,7 +142,7 @@ export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
                                 <Volume1 className={`${sliderLevel >= 50 && "hidden"} ${isMuted && "hidden"}`} color="white"/>
                                 <Volume2 className={`${sliderLevel < 50 && "hidden"} ${isMuted && "hidden"}`} color="white"/>
                             </Button>
-                            <div className="flex items-center px-2 py-4 ">
+                            <div className="flex items-center px-1 py-4 ">
                                 <input 
                                     className="w-0 origin-left scale-x-0 transition-transform group-hover/volume:w-[100px] group-hover/volume:scale-x-100"
                                     type="range"
@@ -138,16 +155,20 @@ export function VideoPlayer({videoUrl, videoTime = 0}:VideoPlayerPops) {
                                 />
                             </div>
                         </div>
-                        <div className="flex items-center flex-row"> {/*time duration*/}
-                            <p>time</p>
+                        <div className="flex items-center flex-nowrap gap-1 text-white text-xs"> {/*time duration*/}
+                            <span>{videoTimer}</span>
+                            <span>/</span>
+                            <span>{FormatDuration(duration)}</span>
                         </div>
                     </div>
                     <div className="flex justify-center gap-6 px-6">{/*Controls right side*/}
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <p>theater</p>
+                        <div><p>autoplay</p></div>
+                        <div><p>close caption</p></div>
+                        <div><p>settings</p></div>
+                        <div><p>minni player</p></div>
+                        <div><p>theater</p></div>
+                        <div><p>full screen</p></div>
+                        
                     </div>
                 </div>
             </div>

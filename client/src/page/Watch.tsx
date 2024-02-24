@@ -31,10 +31,11 @@ export default function Watch() {
     //w-11/12 max-w-screen-2xl
     return(
         <div className="flex justify-center mx-auto overflow-x-hidden">
-            <div className=" px-6 "> {/*main container*/}
-                <div className="box-border max-w-screen-lg">
+            <div className=" "> {/*main container*/}
+                <div className="box-border max-w-screen-xl px-6">
                     <VideoPlayer 
-                        videotime = {0} 
+                        videoTime={t}
+                        duration={15}
                         videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
                     />
                 </div>
