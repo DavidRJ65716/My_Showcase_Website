@@ -28,6 +28,7 @@ export const buttonStyles = cva(["transition-colors"], {
         player:[
           "w-12",
           "h-12",
+          "flex",
           "items-center",
           "justify-center",
         ],

@@ -39,7 +39,7 @@ export function VideoGridItem({
         if (videoRef.current == null) return
 
         if (isVideoPlaying){
-            videoRef.current.currentTime = 0
+            //videoRef.current.currentTime = 0
             videoRef.current.play()
         } else {
             videoRef.current.pause()

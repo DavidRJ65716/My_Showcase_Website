@@ -28,14 +28,14 @@ export default function Watch() {
     const  v  = searchParams.get('v');
     const t = searchParams.get('t')
     getData(v)
-    //w-11/12 max-w-screen-2xl
+    //box-border max-w-screen-xl px-6
     return(
         <div className="flex justify-center mx-auto overflow-x-hidden">
-            <div className=" "> {/*main container*/}
-                <div className="box-border max-w-screen-xl px-6">
+            <div className=""> {/*main container*/}
+                <div className="box-border h-screen w-screen">
                     <VideoPlayer 
-                        videoTime={t}
-                        duration={15}
+                        videoUrlTime={t}
+                        
                         videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
                     />
                 </div>

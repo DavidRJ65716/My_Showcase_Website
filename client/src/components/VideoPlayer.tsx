@@ -1,15 +1,14 @@
-import { Play, Pause, VolumeX, Volume1, Volume2 } from "lucide-react"
+import { Play, Pause, VolumeX, Volume1, Volume2, Maximize, Minimize, Maximize2, Square, RectangleHorizontal } from "lucide-react"
 import { Button } from "./Button"
 import { useEffect, useRef, useState } from "react"
 import { FormatDuration } from "../utils/FormatDuration"
 
 type VideoPlayerPops = {
     videoUrl: string
-    videoTime: string|null
-    duration: number
+    videoUrlTime: string|null
 }
 
-export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
+export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
 
     const [isVideoPlaying, setIsVideoPlaying] = useState(true)
     const [isContolShowing, setIsControlShowing] = useState(false)
@@ -17,8 +16,11 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
     const [volumeLevel, setVolumeLevel] = useState(0)
     const [sliderLevel, setSliderLevel] = useState(0)
     const videoRef = useRef<HTMLVideoElement>(null)
-    const [videoTimer, setVideoTimer] = useState("")
-
+    const [videoTimer, setVideoTimer] = useState<string|null>()
+    const [isFullScreen, setIsVideoFullScreen] = useState(false)
+    const [isTheaterMode, setIsTheaterMode] = useState(false)
+    const [videoPercent, setVideoPercent] = useState(0)
+    console.log(videoPercent)
     useEffect(()=> {
         
         //window.addEventListener("focus",onFocus)
@@ -31,28 +33,36 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
             videoRef.current.pause()
             setIsControlShowing(true)
         }
+        videoRef.current.requestFullscreen
+        videoRef.current.addEventListener('timeupdate', videoCurrentTime)
         
         return () => {
             //window.removeEventListener("focus",onFocus)
+            videoRef.current?.removeEventListener('timeupdate', videoCurrentTime)
+            
         }
 
     },[])
 
     const videoCurrentTime = () => {
-        console.log("timer")
         if (videoRef.current == null) return
-        let timer = FormatDuration(Math.trunc(videoRef.current.currentTime))
-        
-        if (timer == null) return
-        setVideoTimer(timer)
+        const videoTime = videoRef.current.currentTime
+        setVideoTimer(FormatDuration(Math.trunc(videoTime)))
+        setVideoPercent(videoTime/videoDuration())
+    }
+
+    const videoDuration = () => {
+        if (videoRef.current == null) return 0
+        const duration = videoRef.current.duration
+        if (duration == null) return 0
+        return duration
     }
 
     const videoPlayToggle = () => {
         setIsVideoPlaying(v => !v)
-        if (videoRef.current == null) return
+        if (videoRef.current == null) return 0
 
         if (isVideoPlaying){
-            //videoRef.current.currentTime = 0
             videoRef.current.play()
             setIsControlShowing(false)
         } else {
@@ -68,7 +78,7 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
     }
 
     const videoMuteToggle = () => {
-        setIsMuted(m => !m)
+        
         if (volumeLevel === 0 && isMuted) {
             setSliderLevel(20)
             setVolumeLevel(20)
@@ -78,6 +88,7 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
         } else {
             setSliderLevel(volumeLevel)
         }
+        setIsMuted(m => !m)
     }
 
     //Handalse volume slide on inpute range
@@ -108,7 +119,7 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
     return (
 
         <div 
-            className="relative group/control"
+            className={'relative group/control'}
         >{/*video container*/}
             <div 
                 className={`transition-opacity ${isContolShowing ? "opacity-100" : "group-hover/control:opacity-100 opacity-0"} 
@@ -120,7 +131,6 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
                     <div className="flex justify-center flex-nowrap"> {/*controls left side*/}                    
                         <div>{/*play button*/}
                             <Button
-                                className="flex items-center" 
                                 onClick={videoPlayToggle} 
                                 variant={"player"} 
                                 size={"player"}
@@ -133,7 +143,7 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
                             </Button>
                         </div>
                         <div className="group/volume flex flex-row ">{/*volume button*/}
-                            <Button className={`flex items-center`}
+                            <Button
                                 onClick={videoMuteToggle} 
                                 variant={"player"} 
                                 size={"player"}
@@ -158,16 +168,34 @@ export function VideoPlayer({videoUrl, videoTime, duration}:VideoPlayerPops) {
                         <div className="flex items-center flex-nowrap gap-1 text-white text-xs"> {/*time duration*/}
                             <span>{videoTimer}</span>
                             <span>/</span>
-                            <span>{FormatDuration(duration)}</span>
+                            <span>{FormatDuration(Math.trunc(videoDuration()))}</span>
                         </div>
                     </div>
-                    <div className="flex justify-center gap-6 px-6">{/*Controls right side*/}
+                    <div className="flex justify-center flex-nowrap">{/*Controls right side*/}
                         <div><p>autoplay</p></div>
                         <div><p>close caption</p></div>
                         <div><p>settings</p></div>
                         <div><p>minni player</p></div>
-                        <div><p>theater</p></div>
-                        <div><p>full screen</p></div>
+                        <div>
+                            <Button
+                                variant={"player"}
+                                size={"player"}
+                                onClick={()=>{setIsTheaterMode(t => !t)}}
+                            >
+                                <Square className={`${!isTheaterMode && "hidden"}`} color="white"/>
+                                <RectangleHorizontal className={`${isTheaterMode && "hidden"}`} color="white"/>
+                            </Button>
+                        </div>
+                        <div>
+                            <Button 
+                                variant={"player"}
+                                size={"player"}
+                                onClick={()=>{setIsVideoFullScreen(f => !f)}}
+                            >
+                                <Maximize className={`${!isFullScreen && "hidden"}`} color="white"/> 
+                                <Minimize className={`${isFullScreen && "hidden"}`} color="white"/>
+                            </Button>
+                        </div>
                         
                     </div>
                 </div>

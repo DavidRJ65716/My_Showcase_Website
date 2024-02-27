@@ -5,6 +5,7 @@ import { PageHeaderFirstSection } from './components/PageHeaderComp'
 
 export function PageHeader(){
     const [showSearch, setShowSearch] = useState(false)
+    const [showSearchIcon, setShowSearchIcon] = useState(false)
     
     return( 
         <div className='flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4'>
@@ -23,26 +24,31 @@ export function PageHeader(){
                     </Button>
                 )}
                 <div className='flex flex-grow max-w-[600px] '>    
+                    
+                    {/*<Search className=' absolute'/>*/}
                     <input 
                         type='search' 
                         placeholder='Search'
                         className='
-                            rounded-l-full 
-                            border 
-                            border-secondary-boarder 
-                            shadow-inner 
-                            shadow-secondary
-                            py-1
-                            px-4
-                            text-lg
-                            w-full
-                            focus:border-blue-500
-                            outline-none'
+                        rounded-l-full 
+                        border 
+                        border-secondary-boarder 
+                        shadow-inner 
+                        shadow-secondary
+                        py-1
+                        px-4
+                        text-lg
+                        w-full
+                        focus:border-blue-500
+                        outline-none'
+                        onClick={() => {setShowSearchIcon(s => !s)}}
+                        aria-haspopup={false}
                     />
                     <Button className='
                         py-2 
                         px-4 
                         rounded-r-full
+                        relative
                         boarder
                         border-secondary-boarder
                         boarder-1-0
