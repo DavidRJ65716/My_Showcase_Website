@@ -1,6 +1,7 @@
 import { VideoPlayer } from "../components/VideoPlayer"
 import { redirect, useSearchParams } from "react-router-dom";
 import { videos } from "../data/VideoData"
+import { useVideoPlayerContext } from "../contexts/VideoPlayerContext";
 
 type VideoPlayerProps ={
     id: string,
@@ -27,12 +28,15 @@ export default function Watch() {
     const [searchParams] = useSearchParams();
     const  v  = searchParams.get('v');
     const t = searchParams.get('t')
+    const { isTheaterMode } = useVideoPlayerContext()
     getData(v)
-    //box-border max-w-screen-xl px-6
+
+
+    //box-border 
     return(
         <div className="flex justify-center mx-auto overflow-x-hidden">
             <div className=""> {/*main container*/}
-                <div className="box-border h-screen w-screen">
+                <div className={`box-border ${isTheaterMode ? "h-screen w-[90vw] absolute" : "max-w-screen-xl px-6" }`}>
                     <VideoPlayer 
                         videoUrlTime={t}
                         

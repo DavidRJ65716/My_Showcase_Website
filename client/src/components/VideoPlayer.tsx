@@ -1,7 +1,8 @@
-import { Play, Pause, VolumeX, Volume1, Volume2, Maximize, Minimize, Maximize2, Square, RectangleHorizontal } from "lucide-react"
+import { Play, Pause, VolumeX, Volume1, Volume2, Maximize, Minimize, Square, RectangleHorizontal } from "lucide-react"
 import { Button } from "./Button"
 import { useEffect, useRef, useState } from "react"
 import { FormatDuration } from "../utils/FormatDuration"
+import { useVideoPlayerContext } from "../contexts/VideoPlayerContext"
 
 type VideoPlayerPops = {
     videoUrl: string
@@ -15,12 +16,11 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
     const [isMuted, setIsMuted] = useState(true)
     const [volumeLevel, setVolumeLevel] = useState(0)
     const [sliderLevel, setSliderLevel] = useState(0)
-    const videoRef = useRef<HTMLVideoElement>(null)
     const [videoTimer, setVideoTimer] = useState<string|null>()
-    const [isFullScreen, setIsVideoFullScreen] = useState(false)
-    const [isTheaterMode, setIsTheaterMode] = useState(false)
     const [videoPercent, setVideoPercent] = useState(0)
-    console.log(videoPercent)
+    const videoRef = useRef<HTMLVideoElement>(null)
+    const { isTheaterMode, isFullScreen, theaterModeToggle, fullScreenToggle } = useVideoPlayerContext()
+    
     useEffect(()=> {
         
         //window.addEventListener("focus",onFocus)
@@ -33,6 +33,7 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
             videoRef.current.pause()
             setIsControlShowing(true)
         }
+        
         videoRef.current.requestFullscreen
         videoRef.current.addEventListener('timeupdate', videoCurrentTime)
         
@@ -180,20 +181,20 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
                             <Button
                                 variant={"player"}
                                 size={"player"}
-                                onClick={()=>{setIsTheaterMode(t => !t)}}
+                                onClick={()=>{theaterModeToggle()}}
                             >
-                                <Square className={`${!isTheaterMode && "hidden"}`} color="white"/>
-                                <RectangleHorizontal className={`${isTheaterMode && "hidden"}`} color="white"/>
+                                <Square className={`${isTheaterMode && "hidden"}`} color="white"/>
+                                <RectangleHorizontal className={`${!isTheaterMode && "hidden"}`} color="white"/>
                             </Button>
                         </div>
                         <div>
                             <Button 
                                 variant={"player"}
                                 size={"player"}
-                                onClick={()=>{setIsVideoFullScreen(f => !f)}}
+                                onClick={()=>{fullScreenToggle()}}
                             >
-                                <Maximize className={`${!isFullScreen && "hidden"}`} color="white"/> 
-                                <Minimize className={`${isFullScreen && "hidden"}`} color="white"/>
+                                <Maximize className={`${isFullScreen && "hidden"}`} color="white"/> 
+                                <Minimize className={`${!isFullScreen && "hidden"}`} color="white"/>
                             </Button>
                         </div>
                         
