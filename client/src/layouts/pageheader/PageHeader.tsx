@@ -8,7 +8,7 @@ export function PageHeader(){
     const [showSearchIcon, setShowSearchIcon] = useState(false)
     
     return( 
-        <div className='flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4'>
+        <div className='flex gap-10 lg:gap-20 justify-between pt-2 mb-[0.6rem] mx-4'>
             <PageHeaderFirstSection hidden={showSearch}/>
             <form className={`gap-4 flex-grow justify-center ${showSearch ? 'flex' : 'md:flex hidden'}`}>
                 {showSearch && (

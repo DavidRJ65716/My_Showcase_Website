@@ -23,6 +23,15 @@ function getData(v: string|null){
 
 }
 
+function getVideoPlayer() {
+    return (
+        <VideoPlayer 
+        videoUrlTime={""}                
+        videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
+        />
+    )
+}
+
 export default function Watch() {
     
     const [searchParams] = useSearchParams();
@@ -31,31 +40,39 @@ export default function Watch() {
     const { isTheaterMode } = useVideoPlayerContext()
     getData(v)
 
-
     //box-border 
     return(
-        <div className="flex justify-center mx-auto overflow-x-hidden">
-            <div className=""> {/*main container*/}
-                <div className={`box-border ${isTheaterMode ? "h-screen w-[90vw] absolute" : "max-w-screen-xl px-6" }`}>
+        <div>
+            <div className={`${isTheaterMode ? "" : "hidden"}`}>{/*theater mode*/}
+                <VideoPlayer 
+                    videoUrlTime={""}                
+                    videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
+                />
+            </div>
+            <div className="flex justify-center m-0 flex-row">{/*colum container*/}
+                <div className=""> {/*main container*/}
+                    <div className={`box-border ${isTheaterMode ? "hidden" : " max-w-screen-xl pt-6 px-6 flex basis-0" }`}>
                     <VideoPlayer 
-                        videoUrlTime={t}
-                        
+                        videoUrlTime={""}                
                         videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
                     />
+                    </div>
+                    <div className="flex justify-center">{/*video info*/}
+                        <p>video info</p>
+                    </div>
+                    <div className="hidden xs:flex justify-center">{/*colom video grid container*/}
+                        <p>Side video grid</p>
+                    </div>
+                    <div className="flex justify-center">{/*Chat container*/}
+                        <p>comment</p>
+                    </div>
                 </div>
-                <div>{/*video info*/}
+                <div className="pr-6 pt-6 relative hidden lg:flex w-[406px] min-w-[300px]">{/*Secondary container*/}
+                    <div className=" sticky top-0 ">
+                        <p>Side video grid</p>
+                    </div>
                     
                 </div>
-                <div className="hidden xs:flex">{/*colom video grid container*/}
-                   
-                </div>
-                <div>{/*Chat container*/}
-                    
-                </div>
-            </div>
-            <div className="pr-6 border-solid border-black  hidden lg:flex">{/*Secondary container*/}
-                <div className="sticky top-0 "></div>
-                <p>Side video grid</p>
             </div>
         </div>
     )
