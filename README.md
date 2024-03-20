@@ -8,6 +8,8 @@ github.com/WebDevSimplified/youtube-react-ts-tailwind-home-page/
 * Added two layout for the main landing page
 * SidebarContext.tsx Works accross all layouts
 * Added a videoplayer with custom controls * active
+* Added Theater mode * active
 
 ## Known Bugs
 * Scrollbar webkit borke with routing
+* Theater mode and small mode out of sync

@@ -1,4 +1,4 @@
-import { Play, Pause, VolumeX, Volume1, Volume2, Maximize, Minimize, Square, RectangleHorizontal } from "lucide-react"
+import { Play, Pause, VolumeX, Volume1, Volume2, Maximize, Minimize, Square, RectangleHorizontal, RefreshCcw } from "lucide-react"
 import { Button } from "./Button"
 import { useEffect, useRef, useState } from "react"
 import { FormatDuration } from "../utils/FormatDuration"
@@ -11,16 +11,119 @@ type VideoPlayerPops = {
 
 export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
 
-    
-    const { isTheaterMode, isFullScreen, isVideoPlaying, isContolShowing, isMuted, volumeLevel, sliderLevel, videoTimer, videoPercent, videoRef,
-        theaterModeToggle, fullScreenToggle, videoPlayToggle, videoMuteToggle, volumeHandler, HandleSliderClick, videoDuration
+    const [isContolShowing, setIsControlShowing] = useState(false)
+    const videoRef = useRef<HTMLVideoElement>(null)
+    const { isTheaterMode, isFullScreen, isVideoPlaying, isMuted, volumeLevel, sliderLevel, videoTimer, videoPercent,
+        isVideoEnd,
+        theaterModeToggle, fullScreenToggle, videoPercentHandaler, videoPlayToggle, videoTimerHandaler, muteToggle,
+        volumeLevelHandler, sliderLevelHandler, endVideoHandler
     } = useVideoPlayerContext()
     
     useEffect(()=> {
         
+        if (videoRef.current == null) return
+
+        //videoRef.current.requestFullscreen
+        videoRef.current.addEventListener('timeupdate', videoCurrentTime)
+        window.addEventListener("focus",onFocus)
+
+        if (isVideoPlaying){
+            videoRef.current.play()
+            videoRef.current.currentTime = videoTimer
+            setIsControlShowing(false)
+        } else {
+            videoRef.current.pause()
+            setIsControlShowing(true)
+        }
+        
+        if (isTheaterMode)  {
+            videoRef.current.currentTime = videoTimer
+        }
+
+        return () => {
+            window.removeEventListener("focus",onFocus)
+            videoRef.current?.removeEventListener('timeupdate', videoCurrentTime)
+            
+        } 
+    },[isVideoPlaying, isTheaterMode, isVideoEnd])
+
+    const onFocus = () => {
+
+    }
+
+    const videoCurrentTime = () => {
+        if (videoRef.current == null) return
+        const videoTime = videoRef.current.currentTime
+        videoTimerHandaler(videoTime)
+        videoPercentHandaler(videoTime/videoDuration())
+    }
+
+    const videoDuration = () => {
+        if (videoRef.current == null) return 0
+        const duration = videoRef.current.duration
+        if (duration == null) return 0
+        return duration
+    }
+
+    const videoPlayHandler = () => {
         videoPlayToggle()
-        videoMuteToggle()   
-    },[])
+        if (isVideoEnd) {
+            videoTimerHandaler(0)
+            endVideoHandler(false)
+            setIsControlShowing(false)
+        }
+    }
+
+    //0 to 100 are the only numbers in scope
+    const setVideoVolume = (newVolume: number) => {
+        if (videoRef.current == null) return
+        videoRef.current.volume = newVolume/100
+    }
+
+    const muteHandler = () => {
+        
+        if (volumeLevel === 0 && isMuted) {
+            sliderLevelHandler(20)
+            volumeLevelHandler(20)
+            setVideoVolume(20)
+        } else if (!isMuted) {
+            sliderLevelHandler(0)
+        } else {
+            sliderLevelHandler(volumeLevel)
+        }
+        muteToggle(null)
+    }
+
+    const replayHandler = () => {
+        endVideoHandler(true)
+        setIsControlShowing(true)
+        videoPlayToggle()
+    }
+
+    //Handalse volume slide on inpute range
+    const volumeHandler = (newVolume: React.ChangeEvent<HTMLInputElement>) => {
+        volumeLevelHandler(Number(newVolume.target.value))
+        if (volumeLevel === 0) {
+            sliderLevelHandler(0)
+            muteToggle(true)
+        } else {
+            muteToggle(false)
+            sliderLevelHandler(volumeLevel)
+            setVideoVolume(volumeLevel)
+        }
+    }
+
+    //Changes volume when users clicks on slider randomly
+    const sliderClickHandler = () => {
+        if (volumeLevel === 0) {
+            sliderLevelHandler(0)
+            muteToggle(true)
+        } else {
+            muteToggle(false)
+            sliderLevelHandler(volumeLevel)
+            setVideoVolume(volumeLevel)
+        }
+    }
 
     return (
 
@@ -37,20 +140,28 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
                     <div className="flex justify-center flex-nowrap"> {/*controls left side*/}                    
                         <div>{/*play button*/}
                             <Button
-                                onClick={videoPlayToggle} 
+                                onClick={videoPlayHandler} 
                                 variant={"player"} 
                                 size={"player"}
                             >
                                 <Play className={`
-                                    ${!isVideoPlaying && "hidden"}`}
+                                        ${isVideoPlaying && "hidden"}
+                                        ${isVideoEnd && "hidden" }
+                                    `}
                                     color="white"
                                 />
-                                <Pause className={`${isVideoPlaying && "hidden" }`} color="white"/>
+                                <Pause className={`
+                                        ${!isVideoPlaying && "hidden" } 
+                                        ${isVideoEnd && "hidden" }
+                                    `} 
+                                    color="white"
+                                />
+                                <RefreshCcw className={`${!isVideoEnd && "hidden" }`} color="white"/>
                             </Button>
                         </div>
                         <div className="group/volume flex flex-row ">{/*volume button*/}
                             <Button
-                                onClick={videoMuteToggle} 
+                                onClick={muteHandler} 
                                 variant={"player"} 
                                 size={"player"}
                             >
@@ -67,7 +178,7 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
                                     step="1"
                                     value={sliderLevel}
                                     onChange={volumeHandler}
-                                    onClick={HandleSliderClick}
+                                    onClick={sliderClickHandler}
                                 />
                             </div>
                         </div>
@@ -110,9 +221,10 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
                 className="block w-full"
                 src={`${videoUrl}`} 
                 ref={videoRef}
+                onEnded={() => replayHandler()}
                 muted={isMuted}
                 playsInline={true}
-                onClick={videoPlayToggle}
+                onClick={videoPlayHandler}
             />
         </div>
 

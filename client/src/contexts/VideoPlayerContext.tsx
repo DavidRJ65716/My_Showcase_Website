@@ -9,20 +9,21 @@ type VidePlayerType = {
     isTheaterMode: boolean
     isFullScreen: boolean
     isVideoPlaying: boolean
-    isContolShowing: boolean
     isMuted: boolean
+    isVideoEnd: boolean
     volumeLevel: number
     sliderLevel: number
     videoTimer: number
     videoPercent: number
-    videoRef: React.RefObject<HTMLVideoElement>
     theaterModeToggle: () => void
     fullScreenToggle: () => void
+    videoPercentHandaler: (p: number) => void
     videoPlayToggle: () => void
-    videoMuteToggle: () => void
-    volumeHandler: (newVolume: React.ChangeEvent<HTMLInputElement>) => void
-    HandleSliderClick: () => void
-    videoDuration: () => number
+    videoTimerHandaler: (t: number) => void
+    muteToggle: (mu: boolean|null) => void
+    volumeLevelHandler: (v: number) => void
+    sliderLevelHandler: (s: number) => void
+    endVideoHandler: (e: boolean) => void
 }
 
 const VideoPlayerContext = createContext<VidePlayerType | null>(null)
@@ -37,98 +38,48 @@ export function VideoPlayerProvider ({children}: VideoPlayerProps) {
     const [isTheaterMode, setIsTheaterMode] = useState(false)
     const [isFullScreen, setIsVideoFullScreen] = useState(false)
     const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-    const [isContolShowing, setIsControlShowing] = useState(false)
     const [isMuted, setIsMuted] = useState(true)
+    const [isVideoEnd, setIsVideoEnd] = useState(false)
     const [volumeLevel, setVolumeLevel] = useState(0)
     const [sliderLevel, setSliderLevel] = useState(0)
     const [videoTimer, setVideoTimer] = useState(0)
     const [videoPercent, setVideoPercent] = useState(0)
-    const videoRef = useRef<HTMLVideoElement>(null)
 
     useEffect(()=> {
-
-        if (videoRef.current == null) return
-
-        //videoRef.current.requestFullscreen
-        videoRef.current.addEventListener('timeupdate', videoCurrentTime)
-
-        return () => {
-            //window.removeEventListener("focus",onFocus)
-            videoRef.current?.removeEventListener('timeupdate', videoCurrentTime)
-            
-        }
+        
     },[])
 
-    const videoCurrentTime = () => {
-        if (videoRef.current == null) return
-        const videoTime = videoRef.current.currentTime
-        setVideoTimer(videoTime)
-        setVideoPercent(videoTime/videoDuration())
+    function videoPercentHandaler(p: number) {
+        setVideoPercent(p)
     }
 
-    const videoDuration = () => {
-        if (videoRef.current == null) return 0
-        const duration = videoRef.current.duration
-        if (duration == null) return 0
-        return duration
+    function videoTimerHandaler(t: number) {
+        setVideoTimer(t)
     }
 
-    const videoPlayToggle = () => {
-        setIsVideoPlaying(v => !v)
-        if (videoRef.current == null) return 0
+    function volumeLevelHandler(v: number) {
+        setVolumeLevel(v)
+    }
 
-        if (isVideoPlaying){
-            videoRef.current.play()
-            setIsControlShowing(false)
+    function sliderLevelHandler(s: number) {
+        setSliderLevel(s)
+    }
+
+    function muteToggle(mu: boolean|null) {
+
+        if (mu !== null){
+            setIsMuted(mu)
         } else {
-            videoRef.current.pause()
-            setIsControlShowing(true)
+            setIsMuted(m => !m)
         }
     }
 
-    //0 to 100 are the only numbers in scope
-    const setVideoVolume = (newVolume: number) => {
-        if (videoRef.current == null) return
-        videoRef.current.volume = newVolume/100
+    function endVideoHandler(e: boolean){
+        setIsVideoEnd(e)
     }
 
-    const videoMuteToggle = () => {
-        
-        if (volumeLevel === 0 && isMuted) {
-            setSliderLevel(20)
-            setVolumeLevel(20)
-            setVideoVolume(20)
-        } else if (!isMuted) {
-            setSliderLevel(0)
-        } else {
-            setSliderLevel(volumeLevel)
-        }
-        setIsMuted(m => !m)
-    }
-
-    //Handalse volume slide on inpute range
-    const volumeHandler = (newVolume: React.ChangeEvent<HTMLInputElement>) => {
-        setVolumeLevel(Number(newVolume.target.value))
-        if (volumeLevel === 0) {
-            setSliderLevel(0)
-            setIsMuted(true)
-        } else {
-            setIsMuted(false)
-            setSliderLevel(volumeLevel)
-            setVideoVolume(volumeLevel)
-        }
-    }
-
-    //Changes volume when users clicks on slider randomly
-    const HandleSliderClick = () => {
-        if (volumeLevel === 0) {
-            setSliderLevel(0)
-            setIsMuted(true)
-        } else {
-            setIsMuted(false)
-            setSliderLevel(volumeLevel)
-            setVideoVolume(volumeLevel)
-        }
+    function videoPlayToggle() {
+        setIsVideoPlaying(p => !p)
     }
 
     function theaterModeToggle() {
@@ -144,20 +95,21 @@ export function VideoPlayerProvider ({children}: VideoPlayerProps) {
             isTheaterMode,
             isFullScreen,
             isVideoPlaying,
-            isContolShowing,
             isMuted,
             volumeLevel,
             sliderLevel,
             videoTimer,
             videoPercent,
-            videoRef,
+            isVideoEnd,
             theaterModeToggle,
             fullScreenToggle,
+            videoPercentHandaler,
             videoPlayToggle,
-            videoMuteToggle,
-            volumeHandler,
-            HandleSliderClick,
-            videoDuration
+            videoTimerHandaler,
+            muteToggle,
+            volumeLevelHandler,
+            sliderLevelHandler,
+            endVideoHandler
         }}>
             {children}
         </VideoPlayerContext.Provider>

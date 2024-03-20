@@ -23,5 +23,6 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw?
+client/*.sh
 
 old-client
