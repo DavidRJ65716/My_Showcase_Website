@@ -1,8 +1,9 @@
 import { VideoPlayer } from "../components/VideoPlayer"
-import { redirect, useSearchParams } from "react-router-dom";
-import { videos } from "../data/VideoData"
+import { SetURLSearchParams, useNavigate, useSearchParams } from "react-router-dom";
+import { videos } from "../data/VideoData";
 import { useVideoPlayerContext } from "../contexts/VideoPlayerContext";
-import { VideoPlayerProvider } from "../contexts/VideoPlayerContext"
+import { useEffect } from "react";
+
 
 type VideoPlayerProps ={
     id: string,
@@ -20,56 +21,75 @@ type VideoPlayerProps ={
 }
 
 function getData(v: string|null){
-    if(!v)redirect("/")
+    
+    if(v === null)return true
+    
+    return false
+}
 
+function getTime(searchParams: URLSearchParams, setSearchParams: SetURLSearchParams ){
+    const t = searchParams.get('t')
+    console.log(t)
+    if(t === null){
+        return 0
+    }
+
+    if(t === "") {
+        searchParams.delete('t')
+        console.log("blank")
+        return 0
+    }
+    return parseInt(t)
 }
 
 export default function Watch() {
-    
-    const [searchParams] = useSearchParams();
+    const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams();
     const  v  = searchParams.get('v');
-    const t = searchParams.get('t')
+    var t = getTime(searchParams, setSearchParams)
     const { isTheaterMode } = useVideoPlayerContext()
-    getData(v)
-    //box-border 
+    const redirect = getData(v)    
+    
+    useEffect(() => {
+        if (redirect) return navigate("/")
+        setSearchParams(searchParams)
+    }, [t])
+
     return(
-        
-            <div>
-                <div className={`${isTheaterMode ? "" : "hidden"}`}>{/*theater mode*/}
-                    <div className=" z-[-1] bg-black w-full h-full">
-                    </div>
-                    <div className="flex justify-center">
+        <div>
+            <div className={`${isTheaterMode ? "" : "hidden"}`}>{/*theater mode*/}
+                <div className="flex justify-center">
+                    <VideoPlayer 
+                        videoUrlTime={t}                
+                        videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
+                    />
+                </div>
+            </div>
+            <div className="flex justify-center m-0 flex-row">{/*colum container*/}
+                <div className=""> {/*main container*/}
+                    <div className={`box-border ${isTheaterMode ? "hidden" : " max-w-screen-xl pt-6 px-6 flex basis-0" }`}>
                         <VideoPlayer 
-                            videoUrlTime={""}                
+                            videoUrlTime={t}                
                             videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
                         />
                     </div>
+                    <div className="flex justify-center">{/*video info*/}
+                        <p>video info</p>
+                    </div>
+                    <div className="hidden xs:flex justify-center">{/*colom video grid container*/}
+                        <p>Side video grid</p>
+                    </div>
+                    <div className="flex justify-center">{/*Chat container*/}
+                        <p>comment</p>
+                    </div>
                 </div>
-                <div className="flex justify-center m-0 flex-row">{/*colum container*/}
-                    <div className=""> {/*main container*/}
-                        <div className={`box-border ${isTheaterMode ? "hidden" : " max-w-screen-xl pt-6 px-6 flex basis-0" }`}>
-                        <VideoPlayer 
-                            videoUrlTime={""}                
-                            videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
-                            />
-                        </div>
-                        <div className="flex justify-center">{/*video info*/}
-                            <p>video info</p>
-                        </div>
-                        <div className="hidden xs:flex justify-center">{/*colom video grid container*/}
-                            <p>Side video grid</p>
-                        </div>
-                        <div className="flex justify-center">{/*Chat container*/}
-                            <p>comment</p>
-                        </div>
+                <div className="pr-6 pt-6 relative hidden lg:flex w-[406px] min-w-[300px]">{/*Secondary container*/}
+                    <div className=" sticky top-0 ">
+                        <p>Side video grid</p>
                     </div>
-                    <div className="pr-6 pt-6 relative hidden lg:flex w-[406px] min-w-[300px]">{/*Secondary container*/}
-                        <div className=" sticky top-0 ">
-                            <p>Side video grid</p>
-                        </div>
-                        
-                    </div>
+                    
                 </div>
             </div>
+        </div>
     )
 }

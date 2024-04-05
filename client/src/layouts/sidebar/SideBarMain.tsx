@@ -13,22 +13,37 @@ import { useSidebarContext } from "../../contexts/SidebarContext";
 import { LargeSidebarSection, LargeSidebarItem } from "./components/LargeSideBarComp";
 import { SmallSidebarItem } from "./components/SmallSideBarComp";
 import { PageHeaderFirstSection } from "../pageheader/components/PageHeaderComp";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 export function SideBarMain() {
     
     const { isLargeOpen, isSmallOpen, close} = useSidebarContext()
+    const location = useLocation()
+    
+    useEffect(() => {
+        location
+        return () =>{
+        }
+    }, [location])
 
-    return (
-        
+    const isIconActive = (url: string) => {
+        if (location.pathname === url){
+            return true
+        }
+        return false
+    }
+    
+    return ( 
         <>
             <aside className= {`
                 sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 xs:hidden
                 ${isLargeOpen ? "xl:hidden" : " xl:flex" }
             `}>
-                <SmallSidebarItem isActive Icon={Home} title="Home" url="/" index={0}/>
-                <SmallSidebarItem Icon={Repeat} title="Shorts" url="/shorts" index={1}/>
-                <SmallSidebarItem Icon={Clapperboard} title="Subscription" url="/Subscription" index={2}/>
-                <SmallSidebarItem Icon={Library} title="You" url="/library" index={3}/>
+                <SmallSidebarItem isActive={isIconActive("/")} Icon={Home} title="Home" url="/" index={0}/>
+                <SmallSidebarItem isActive={isIconActive("/shorts")} Icon={Repeat} title="Shorts" url="/shorts" index={1}/>
+                <SmallSidebarItem isActive={isIconActive("/Subscription")} Icon={Clapperboard} title="Subscription" url="/Subscription" index={2}/>
+                <SmallSidebarItem isActive={isIconActive("/library")} Icon={Library} title="You" url="/library" index={3}/>
             </aside>
             
             {isSmallOpen && (
@@ -47,9 +62,9 @@ export function SideBarMain() {
                     <PageHeaderFirstSection />
                 </div>
                 <LargeSidebarSection visibleItemCount={4}>
-                    <LargeSidebarItem isActive IconOrImage={Home} title="Home" url="/" index={0}/>
-                    <LargeSidebarItem IconOrImage={Repeat} title="Shorts" url="/shorts" index={1}/>
-                    <LargeSidebarItem IconOrImage={Clapperboard} title="Subscription" url="/subscription" index={2}/>
+                    <LargeSidebarItem isActive={isIconActive("/")} IconOrImage={Home} title="Home" url="/" index={0}/>
+                    <LargeSidebarItem isActive={isIconActive("/shorts")} IconOrImage={Repeat} title="Shorts" url="/shorts" index={1}/>
+                    <LargeSidebarItem isActive={isIconActive("/subscription")} IconOrImage={Clapperboard} title="Subscription" url="/subscription" index={2}/>
                 </LargeSidebarSection>
                 <hr className=""/>
                 <LargeSidebarSection visibleItemCount={6} >
@@ -59,11 +74,11 @@ export function SideBarMain() {
                     <LargeSidebarItem isActive IconOrImage={HelpCircle} title="Your videos" url="/" index={6}/>
                     <LargeSidebarItem isActive IconOrImage={HelpCircle} title="Your movies & TV" url="/" index={5}/>
                     <LargeSidebarItem isActive IconOrImage={HelpCircle} title="Watch later" url="/" index={5}/>
-                    <LargeSidebarItem isActive IconOrImage={HelpCircle} title="Licked videos" url="/" index={5}/>
+                    <LargeSidebarItem isActive IconOrImage={HelpCircle} title="Liked videos" url="/" index={5}/>
                     {playlist.map(playlist => (
                         <LargeSidebarItem 
                             key={playlist.id}
-                            isActive 
+                            isActive={isIconActive("/playlist?list=${playlist.id}")} 
                             IconOrImage={ListVideo} 
                             title={playlist.name} 
                             url={`/playlist?list=${playlist.id}`} 
@@ -76,7 +91,7 @@ export function SideBarMain() {
                     {subscriptions.map(subs=>(                                 
                         <LargeSidebarItem 
                             key={subs.id}
-                            isActive 
+                            isActive={isIconActive("/@${subs.channelName}")} 
                             IconOrImage={subs.imgUrl} 
                             title={subs.channelName} 
                             url={`/@${subs.channelName}`} 

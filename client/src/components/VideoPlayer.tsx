@@ -6,19 +6,20 @@ import { useVideoPlayerContext } from "../contexts/VideoPlayerContext"
 
 type VideoPlayerPops = {
     videoUrl: string
-    videoUrlTime: string|null
+    videoUrlTime: number
 }
 
 export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
 
     const [isContolShowing, setIsControlShowing] = useState(false)
+    const [isFullScreen, setIsFullScreen] = useState(false)
     const videoRef = useRef<HTMLVideoElement>(null)
-    const { isTheaterMode, isFullScreen, isVideoPlaying, isMuted, volumeLevel, sliderLevel, videoTimer, videoPercent,
+    const { isTheaterMode, isVideoPlaying, isMuted, volumeLevel, sliderLevel, videoTimer, videoPercent,
         isVideoEnd,
-        theaterModeToggle, fullScreenToggle, videoPercentHandaler, videoPlayToggle, videoTimerHandaler, muteToggle,
+        theaterModeToggle, videoPercentHandaler, videoPlayToggle, videoTimerHandaler, muteToggle,
         volumeLevelHandler, sliderLevelHandler, endVideoHandler
     } = useVideoPlayerContext()
-    
+
     useEffect(()=> {
         
         if (videoRef.current == null) return
@@ -27,15 +28,15 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
         videoRef.current.addEventListener('timeupdate', videoCurrentTime)
         window.addEventListener("focus",onFocus)
 
-        if (isVideoPlaying){
-            videoRef.current.play()
-            videoRef.current.currentTime = videoTimer
-            setIsControlShowing(false)
-        } else {
-            videoRef.current.pause()
-            setIsControlShowing(true)
-        }
-        
+        window.addEventListener('load', () => {
+            if (videoRef.current == null) return
+
+            videoRef.current.play
+            videoRef.current.currentTime = videoUrlTime
+            videoPlayToggle()
+        });
+
+
         if (isTheaterMode)  {
             videoRef.current.currentTime = videoTimer
         }
@@ -45,10 +46,29 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
             videoRef.current?.removeEventListener('timeupdate', videoCurrentTime)
             
         } 
-    },[isVideoPlaying, isTheaterMode, isVideoEnd])
+    },[isTheaterMode, isVideoEnd])
 
     const onFocus = () => {
 
+    }
+
+    const fullScreenHandler = () => {
+        const fullScreen = document.getElementById("video")
+        
+        if (!document.fullscreenEnabled){ 
+            fullScreen?.parentNode?.removeChild(fullScreen)
+            throw new Error("Fullscreen no available")
+        }
+        
+        if (document.fullscreenElement){
+            document.exitFullscreen()
+            setIsFullScreen(false)
+        } else {
+            fullScreen?.requestFullscreen()
+            setIsFullScreen(true)
+        }
+        document.addEventListener("fullscreenchange", () => {} )
+        
     }
 
     const videoCurrentTime = () => {
@@ -66,11 +86,23 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
     }
 
     const videoPlayHandler = () => {
+        if (videoRef.current == null) return
         videoPlayToggle()
         if (isVideoEnd) {
-            videoTimerHandaler(0)
             endVideoHandler(false)
+            videoRef.current.play()
+            videoRef.current.currentTime = 0
             setIsControlShowing(false)
+            videoPlayToggle()
+        } else {
+           if (isVideoPlaying){
+                videoRef.current.pause()
+                setIsControlShowing(true)
+            } else {
+                videoRef.current.play()
+                videoRef.current.currentTime = videoTimer
+                setIsControlShowing(false)
+            }
         }
     }
 
@@ -97,7 +129,6 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
     const replayHandler = () => {
         endVideoHandler(true)
         setIsControlShowing(true)
-        videoPlayToggle()
     }
 
     //Handalse volume slide on inpute range
@@ -124,18 +155,16 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
             setVideoVolume(volumeLevel)
         }
     }
-
+    //w-full
+    //max-h-[85vh] bg-black
     return (
-
-        <div 
-            className={'relative group/control'}
-        >{/*video container*/}
+        <div id="video" className={'relative group/control '} >{/*video container*/}
             <div 
                 className={`transition-opacity ${isContolShowing ? "opacity-100" : "group-hover/control:opacity-100 opacity-0"} 
             `}>{/*video controll conatiner*/}
                 <div>{/*time-line container*/}
                 </div>
-                <div className="bottom-0 absolute bg-gradient-to-t w-full from-black to-transparent aspect-[6/1] opacity-50"></div>{/*Bottom gradiant*/}
+                <div className="bottom-0 absolute bg-gradient-to-t w-full from-black to-transparent aspect-[6/1] opacity-50"/>{/*Bottom gradiant*/}
                 <div className={`absolute bottom-0 inset-x-0 z-[100] flex justify-between px-3`}>{/*video Controlls*/}
                     <div className="flex justify-center flex-nowrap"> {/*controls left side*/}                    
                         <div>{/*play button*/}
@@ -193,7 +222,7 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
                         <div><p>close caption</p></div>
                         <div><p>settings</p></div>
                         <div><p>minni player</p></div>
-                        <div>
+                        <div className="block">
                             <Button
                                 variant={"player"}
                                 size={"player"}
@@ -203,11 +232,11 @@ export function VideoPlayer({videoUrl, videoUrlTime}:VideoPlayerPops) {
                                 <RectangleHorizontal className={`${!isTheaterMode && "hidden"}`} color="white"/>
                             </Button>
                         </div>
-                        <div>
+                        <div className="block">
                             <Button 
                                 variant={"player"}
                                 size={"player"}
-                                onClick={()=>{fullScreenToggle()}}
+                                onClick={()=>{fullScreenHandler()}}
                             >
                                 <Maximize className={`${isFullScreen && "hidden"}`} color="white"/> 
                                 <Minimize className={`${!isFullScreen && "hidden"}`} color="white"/>

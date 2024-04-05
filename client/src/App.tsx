@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import AppRouters from "./AppRoutes"
 import { SidebarProvider } from "./contexts/SidebarContext"
-import { VideoPlayerProvider } from "./contexts/VideoPlayerContext"
-
 
 export default function App() {
     
@@ -22,11 +20,9 @@ export default function App() {
 
     return(
         <SidebarProvider>
-            <VideoPlayerProvider>
                 <Routes>
                         {layouts}
                 </Routes>
-            </VideoPlayerProvider>
         </SidebarProvider>
         
     ) 

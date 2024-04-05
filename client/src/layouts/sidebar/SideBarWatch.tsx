@@ -12,10 +12,26 @@ import { subscriptions } from "../../data/SubscriptionData";
 import { LargeSidebarSection, LargeSidebarItem } from "./components/LargeSideBarComp";
 import { PageHeaderFirstSection } from "../pageheader/components/PageHeaderComp";
 import { useSidebarContext } from "../../contexts/SidebarContext"
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 export function SideBarWatch(){
     
     const { isSecondOpen, close}= useSidebarContext()
+    const location = useLocation()
+    
+    useEffect(() => {
+        location
+        return () =>{
+        }
+    }, [location])
+
+    const isIconActive = (url: string) => {
+        if (location.pathname === url){
+            return true
+        }
+        return false
+    }
     
     return(
         <>
@@ -33,7 +49,7 @@ export function SideBarWatch(){
                     <PageHeaderFirstSection />
                 </div>
                 <LargeSidebarSection visibleItemCount={4}>
-                    <LargeSidebarItem isActive IconOrImage={Home} title="Home" url="/" index={0}/>
+                    <LargeSidebarItem isActive={isIconActive("/")} IconOrImage={Home} title="Home" url="/" index={0}/>
                     <LargeSidebarItem IconOrImage={Repeat} title="Shorts" url="/shorts" index={1}/>
                     <LargeSidebarItem IconOrImage={Clapperboard} title="Subscription" url="/subscription" index={2}/>
                 </LargeSidebarSection>

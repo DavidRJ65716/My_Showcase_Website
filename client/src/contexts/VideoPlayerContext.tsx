@@ -7,7 +7,6 @@ type VideoPlayerProps = {
 
 type VidePlayerType = {
     isTheaterMode: boolean
-    isFullScreen: boolean
     isVideoPlaying: boolean
     isMuted: boolean
     isVideoEnd: boolean
@@ -16,7 +15,6 @@ type VidePlayerType = {
     videoTimer: number
     videoPercent: number
     theaterModeToggle: () => void
-    fullScreenToggle: () => void
     videoPercentHandaler: (p: number) => void
     videoPlayToggle: () => void
     videoTimerHandaler: (t: number) => void
@@ -36,9 +34,8 @@ export function useVideoPlayerContext() {
 
 export function VideoPlayerProvider ({children}: VideoPlayerProps) {
     const [isTheaterMode, setIsTheaterMode] = useState(false)
-    const [isFullScreen, setIsVideoFullScreen] = useState(false)
     const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-    const [isMuted, setIsMuted] = useState(true)
+    const [isMuted, setIsMuted] = useState(false)
     const [isVideoEnd, setIsVideoEnd] = useState(false)
     const [volumeLevel, setVolumeLevel] = useState(0)
     const [sliderLevel, setSliderLevel] = useState(0)
@@ -86,14 +83,9 @@ export function VideoPlayerProvider ({children}: VideoPlayerProps) {
         setIsTheaterMode(t => !t)
     }
 
-    function fullScreenToggle() {
-        setIsVideoFullScreen(f => !f)
-    }
-
     return(
         <VideoPlayerContext.Provider value={{
             isTheaterMode,
-            isFullScreen,
             isVideoPlaying,
             isMuted,
             volumeLevel,
@@ -102,7 +94,6 @@ export function VideoPlayerProvider ({children}: VideoPlayerProps) {
             videoPercent,
             isVideoEnd,
             theaterModeToggle,
-            fullScreenToggle,
             videoPercentHandaler,
             videoPlayToggle,
             videoTimerHandaler,
