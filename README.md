@@ -1,6 +1,6 @@
 Based on 
-1. Web Dev Simplified [Video](youtube.com/watch?v=ymGB1lqP1CM&t=1939s)
-2. Web Dev Simplified [Repository](github.com/WebDevSimplified/youtube-react-ts-tailwind-home-page/)
+1. Web Dev Simplified [Video](https://youtube.com/watch?v=ymGB1lqP1CM&t=1939s)
+2. Web Dev Simplified [Repository](https://github.com/WebDevSimplified/youtube-react-ts-tailwind-home-page/)
 
 # Features Added
 <br>
