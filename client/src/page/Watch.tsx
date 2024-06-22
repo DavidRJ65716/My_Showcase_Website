@@ -1,4 +1,5 @@
 import { VideoPlayer } from "../components/VideoPlayer"
+import { VideoPlayerTheater } from "../components/VideoTheater"
 import { SetURLSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import { videos } from "../data/VideoData";
 import { useVideoPlayerContext } from "../contexts/VideoPlayerContext";
@@ -68,10 +69,9 @@ export default function Watch() {
             <div className="flex justify-center m-0 flex-row">{/*colum container*/}
                 <div className=""> {/*main container*/}
                     <div className={`box-border ${isTheaterMode ? "hidden" : " max-w-screen-xl pt-6 px-6 flex basis-0" }`}>
-                        <VideoPlayer 
-                            videoUrlTime={t}                
-                            videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"}
-                        />
+                        <VideoPlayerTheater      
+                            videoUrl={"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"} 
+                            videoUrlTime={t}                        />
                     </div>
                     <div className="flex justify-center">{/*video info*/}
                         <p>video info</p>

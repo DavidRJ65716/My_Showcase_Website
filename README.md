@@ -3,7 +3,6 @@ Based on
 2. Web Dev Simplified [Repository](https://github.com/WebDevSimplified/youtube-react-ts-tailwind-home-page/)
 
 # Features Added
-<br>
 
 ## Main website
 - Added Routing to webpages
@@ -19,7 +18,6 @@ Based on
 - Added Theater mode * active
 
 # Known Bugs
-<br>
 
 * Scrollbar webkit broke with routing
 * Theater mode and small mode out of sync
